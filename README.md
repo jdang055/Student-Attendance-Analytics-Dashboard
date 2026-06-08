@@ -63,6 +63,7 @@ Column names are case-insensitive. Extra columns are ignored.
 ---
 
 # Project Structure
+```
 attendance-dashboard/
 ├── app/
 │ ├── dashboard.py # Streamlit app — charts, cards, layout
@@ -74,7 +75,7 @@ attendance-dashboard/
 ├── assets/
 │ └── dashboard_preview.png
 └── requirements.txt
-
+```
 ---
 # How It Works (High Level)
 - User uploads a CSV or the app loads the bundled demo dataset on startup
