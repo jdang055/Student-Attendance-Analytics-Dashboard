@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Attendance Analytics — Report</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f2f2f2;
+      color: #1a1a1a;
+      padding: 28px 32px 48px;
+    }
+
+    /* ── Page wrapper ── */
+    .page { max-width: 1100px; margin: 0 auto; }
+
+    /* ── Title ── */
+    .report-title {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+      padding-top: 8px;
+    }
+    .report-subtitle {
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    /* ── KPI row ── */
+    .kpi-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .kpi-card {
+      flex: 1;
+      min-width: 180px;
+      border-radius: 4px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+    .kpi-card .kpi-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #444;
+      margin-bottom: 6px;
+    }
+    .kpi-card .kpi-value {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.1;
+    }
+    .kpi-card .kpi-sub {
+      font-size: 0.75rem;
+      color: #555;
+      margin-top: 5px;
+    }
+
+    /* ── Section panels (white card, dashed border) ── */
+    .panel {
+      background: white;
+      border: 1px dashed #c0c0c0;
+      border-radius: 4px;
+      padding: 16px 20px 8px;
+      margin-bottom: 16px;
+    }
+    .panel-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+
+    /* ── Student table ── */
+    .table-scroll {
+      overflow-x: auto;
+      overflow-y: auto;
+      max-height: 420px;
+      border: 1px solid #d0d0d0;
+      border-radius: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    thead th {
+      background: #f0f0f0;
+      color: #1a1a1a;
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 2px solid #d0d0d0;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      white-space: nowrap;
+    }
+    tbody td { color: #1a1a1a; }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #aaa;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Title -->
+  <div class="report-title">Student Attendance Analytics</div>
+  <div class="report-subtitle">September 02, 2025 – November 28, 2025&nbsp; &nbsp;|&nbsp; &nbsp;Generated on June 07, 2026 at 10:58 PM</div>
+
+  <!-- KPI Cards -->
+  <div class="kpi-row">
+    <div class="kpi-card" style="background:#aecde8;">
+      <div class="kpi-label">Overall Attendance Rate</div>
+      <div class="kpi-value">89.2%</div>
+      <div class="kpi-sub" style="color:#c0392b; font-weight:600;">
+        ▼ 0.8% vs. 90% goal
+      </div>
+    </div>
+    <div class="kpi-card" style="background:#f7c9a3;">
+      <div class="kpi-label">Students Enrolled</div>
+      <div class="kpi-value">300</div>
+      <div class="kpi-sub">across all sites</div>
+    </div>
+    <div class="kpi-card" style="background:#c6deb8;">
+      <div class="kpi-label">Attendance Records</div>
+      <div class="kpi-value">18,300</div>
+      <div class="kpi-sub">total sessions tracked</div>
+    </div>
+    <div class="kpi-card" style="background:#ead8b4;">
+      <div class="kpi-label">Students Needing Support</div>
+      <div class="kpi-value" style="color:#c0392b;">140</div>
+      <div class="kpi-sub">46.7% of enrolled students</div>
+    </div>
+  </div>
+
+  <!-- Chart: Attendance by Site -->
+  <div class="panel">
+    <div class="panel-title">Attendance by Site</div>
+    <div>                        <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>                <div id="4857c361-260f-4626-a3b4-c6f5bbbe1b43" class="plotly-graph-div" style="height:320px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("4857c361-260f-4626-a3b4-c6f5bbbe1b43")) {                    Plotly.newPlot(                        "4857c361-260f-4626-a3b4-c6f5bbbe1b43",                        [{"alignmentgroup":"True","hovertemplate":"=%{y}\u003cbr\u003eAttendance Rate (%)=%{x}\u003cbr\u003etext=%{text}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"On Track (\u226590%)","marker":{"color":"#4e79a7","line":{"width":0},"pattern":{"shape":""}},"name":"On Track (\u226590%)","offsetgroup":"On Track (\u226590%)","orientation":"h","showlegend":true,"text":["90.0%"],"textfont":{"color":"#1a1a1a","family":"Segoe UI, Arial, sans-serif","size":11},"textposition":"outside","x":[90.04683840749415],"xaxis":"x","y":["Roosevelt Middle School"],"yaxis":"y","type":"bar"},{"alignmentgroup":"True","hovertemplate":"=%{y}\u003cbr\u003eAttendance Rate (%)=%{x}\u003cbr\u003etext=%{text}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"Needs Attention (\u003c90%)","marker":{"color":"#e15759","line":{"width":0},"pattern":{"shape":""}},"name":"Needs Attention (\u003c90%)","offsetgroup":"Needs Attention (\u003c90%)","orientation":"h","showlegend":true,"text":["89.6%","88.9%","88.8%","88.3%"],"textfont":{"color":"#1a1a1a","family":"Segoe UI, Arial, sans-serif","size":11},"textposition":"outside","x":[89.55863808322825,88.9418777943368,88.81967213114754,88.25136612021858],"xaxis":"x","y":["Harriet Tubman K-8","Lincoln Elementary","Cesar Chavez Academy","Kennedy STEM Magnet"],"yaxis":"y","type":"bar"}],                        {"annotations":[{"font":{"color":"#333333","family":"Segoe UI, Arial, sans-serif","size":11},"showarrow":false,"text":"\u003cb\u003e\u00b7 \u00b7 \u00b7  90% Attendance Goal\u003c\u002fb\u003e","x":1.0,"xanchor":"right","xref":"paper","y":1.18,"yanchor":"bottom","yref":"paper"}],"barmode":"relative","font":{"color":"#5a5a5a","family":"Segoe UI, Arial, sans-serif"},"height":320,"legend":{"bgcolor":"rgba(0,0,0,0)","borderwidth":0,"font":{"color":"#5a5a5a","size":11},"orientation":"h","title":{"text":""},"tracegroupgap":0,"x":0,"y":1.12},"margin":{"b":60,"l":70,"r":40,"t":70},"paper_bgcolor":"white","plot_bgcolor":"white","shapes":[{"line":{"color":"#b0b0b0","dash":"dot","width":1.5},"type":"line","x0":90,"x1":90,"xref":"x","y0":0,"y1":1,"yref":"y domain"}],"showlegend":true,"template":{"data":{"candlestick":[{"decreasing":{"line":{"color":"#000033"}},"increasing":{"line":{"color":"#000032"}},"type":"candlestick"}],"contourcarpet":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"contourcarpet"}],"contour":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"contour"}],"heatmap":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"heatmap"}],"histogram2d":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"histogram2d"}],"icicle":[{"textfont":{"color":"white"},"type":"icicle"}],"sankey":[{"textfont":{"color":"#000036"},"type":"sankey"}],"scatter":[{"marker":{"line":{"width":0}},"type":"scatter"}],"table":[{"cells":{"fill":{"color":"#000038"},"font":{"color":"#000037"},"line":{"color":"#000039"}},"header":{"fill":{"color":"#000040"},"font":{"color":"#000036"},"line":{"color":"#000039"}},"type":"table"}],"waterfall":[{"connector":{"line":{"color":"#000036","width":2}},"decreasing":{"marker":{"color":"#000033"}},"increasing":{"marker":{"color":"#000032"}},"totals":{"marker":{"color":"#000034"}},"type":"waterfall"}]},"layout":{"coloraxis":{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]]},"colorscale":{"diverging":[[0.0,"#000021"],[0.1,"#000022"],[0.2,"#000023"],[0.3,"#000024"],[0.4,"#000025"],[0.5,"#000026"],[0.6,"#000027"],[0.7,"#000028"],[0.8,"#000029"],[0.9,"#000030"],[1.0,"#000031"]],"sequential":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"sequentialminus":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]]},"colorway":["#000001","#000002","#000003","#000004","#000005","#000006","#000007","#000008","#000009","#000010"]}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"gridcolor":"#e8e8e8","range":[83.25136612021858,94.04683840749415],"showgrid":true,"showline":false,"tickfont":{"color":"#5a5a5a","size":11},"title":{"text":"Attendance Rate (%)","standoff":12},"zeroline":false,"automargin":true},"yaxis":{"anchor":"x","domain":[0.0,1.0],"gridcolor":"#e8e8e8","gridwidth":1,"showgrid":false,"showline":false,"tickfont":{"color":"#5a5a5a","size":11},"title":{"text":"","standoff":12},"zeroline":false,"automargin":true},"autosize":true},                        {"displayModeBar": false, "responsive": true}                    )                };                            </script>        </div>
+  </div>
+
+  <!-- Chart: Weekly Attendance Trend -->
+  <div class="panel">
+    <div class="panel-title">Weekly Attendance Trend</div>
+    <div>                            <div id="e2169cf2-d6f4-46aa-a36f-491de858b452" class="plotly-graph-div" style="height:340px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("e2169cf2-d6f4-46aa-a36f-491de858b452")) {                    Plotly.newPlot(                        "e2169cf2-d6f4-46aa-a36f-491de858b452",                        [{"hovertemplate":"=%{x}\u003cbr\u003eAttendance Rate (%)=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","line":{"color":"#4e79a7","dash":"solid","shape":"linear","width":2},"marker":{"symbol":"circle"},"mode":"lines","name":"","orientation":"v","showlegend":false,"x":["2025-09-01T00:00:00","2025-09-08T00:00:00","2025-09-15T00:00:00","2025-09-22T00:00:00","2025-09-29T00:00:00","2025-10-06T00:00:00","2025-10-13T00:00:00","2025-10-20T00:00:00","2025-10-27T00:00:00","2025-11-03T00:00:00","2025-11-10T00:00:00","2025-11-17T00:00:00","2025-11-24T00:00:00"],"xaxis":"x","y":[87.75,89.06666666666668,89.4,88.93333333333334,88.2,90.06666666666666,89.58333333333334,88.6,90.4,89.66666666666666,88.33333333333333,89.0,90.08333333333334],"yaxis":"y","type":"scatter"}],                        {"annotations":[{"font":{"color":"#333333","family":"Segoe UI, Arial, sans-serif","size":11},"showarrow":false,"text":"\u003cb\u003e\u00b7 \u00b7 \u00b7  90% Attendance Goal\u003c\u002fb\u003e","x":1.0,"xanchor":"right","xref":"paper","y":1.15,"yanchor":"bottom","yref":"paper"}],"font":{"color":"#5a5a5a","family":"Segoe UI, Arial, sans-serif"},"height":340,"legend":{"tracegroupgap":0},"margin":{"b":60,"l":70,"r":40,"t":70},"paper_bgcolor":"white","plot_bgcolor":"white","shapes":[{"line":{"color":"#b0b0b0","dash":"dot","width":1.5},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":90,"y1":90,"yref":"y"}],"template":{"data":{"candlestick":[{"decreasing":{"line":{"color":"#000033"}},"increasing":{"line":{"color":"#000032"}},"type":"candlestick"}],"contourcarpet":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"contourcarpet"}],"contour":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"contour"}],"heatmap":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"heatmap"}],"histogram2d":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"histogram2d"}],"icicle":[{"textfont":{"color":"white"},"type":"icicle"}],"sankey":[{"textfont":{"color":"#000036"},"type":"sankey"}],"scatter":[{"marker":{"line":{"width":0}},"type":"scatter"}],"table":[{"cells":{"fill":{"color":"#000038"},"font":{"color":"#000037"},"line":{"color":"#000039"}},"header":{"fill":{"color":"#000040"},"font":{"color":"#000036"},"line":{"color":"#000039"}},"type":"table"}],"waterfall":[{"connector":{"line":{"color":"#000036","width":2}},"decreasing":{"marker":{"color":"#000033"}},"increasing":{"marker":{"color":"#000032"}},"totals":{"marker":{"color":"#000034"}},"type":"waterfall"}]},"layout":{"coloraxis":{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]]},"colorscale":{"diverging":[[0.0,"#000021"],[0.1,"#000022"],[0.2,"#000023"],[0.3,"#000024"],[0.4,"#000025"],[0.5,"#000026"],[0.6,"#000027"],[0.7,"#000028"],[0.8,"#000029"],[0.9,"#000030"],[1.0,"#000031"]],"sequential":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"sequentialminus":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]]},"colorway":["#000001","#000002","#000003","#000004","#000005","#000006","#000007","#000008","#000009","#000010"]}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"showgrid":false,"showline":false,"tickfont":{"color":"#5a5a5a","size":11},"title":{"text":"","standoff":12},"zeroline":false,"automargin":true},"yaxis":{"anchor":"x","domain":[0.0,1.0],"gridcolor":"#e8e8e8","gridwidth":1,"range":[84.75,93.4],"showgrid":true,"showline":false,"tickfont":{"color":"#5a5a5a","size":11},"title":{"text":"Attendance Rate (%)","standoff":12},"zeroline":false,"automargin":true},"autosize":true},                        {"displayModeBar": false, "responsive": true}                    )                };                            </script>        </div>
+  </div>
+
+  <!-- Chart: Attendance by Program -->
+  <div class="panel">
+    <div class="panel-title">Attendance by Program</div>
+    <div>                            <div id="f6ba4660-1088-4729-bf0d-1cdfaa442507" class="plotly-graph-div" style="height:320px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("f6ba4660-1088-4729-bf0d-1cdfaa442507")) {                    Plotly.newPlot(                        "f6ba4660-1088-4729-bf0d-1cdfaa442507",                        [{"marker":{"color":"#4e79a7","line":{"width":0}},"name":"Tutoring Support","showlegend":false,"text":"89.9%","textfont":{"color":"#1a1a1a","family":"Segoe UI, Arial, sans-serif","size":11},"textposition":"outside","x":["Tutoring Support"],"y":[89.8995240613432],"type":"bar"},{"marker":{"color":"#f28e2b","line":{"width":0}},"name":"Homework Help","showlegend":false,"text":"89.6%","textfont":{"color":"#1a1a1a","family":"Segoe UI, Arial, sans-serif","size":11},"textposition":"outside","x":["Homework Help"],"y":[89.57194899817851],"type":"bar"},{"marker":{"color":"#e15759","line":{"width":0}},"name":"After School Enrichment","showlegend":false,"text":"89.1%","textfont":{"color":"#1a1a1a","family":"Segoe UI, Arial, sans-serif","size":11},"textposition":"outside","x":["After School Enrichment"],"y":[89.05757893886779],"type":"bar"},{"marker":{"color":"#76b7b2","line":{"width":0}},"name":"STEM Club","showlegend":false,"text":"88.7%","textfont":{"color":"#1a1a1a","family":"Segoe UI, Arial, sans-serif","size":11},"textposition":"outside","x":["STEM Club"],"y":[88.74316939890711],"type":"bar"}],                        {"annotations":[{"font":{"color":"#333333","family":"Segoe UI, Arial, sans-serif","size":11},"showarrow":false,"text":"\u003cb\u003e\u00b7 \u00b7 \u00b7  90% Attendance Goal\u003c\u002fb\u003e","x":1.0,"xanchor":"right","xref":"paper","y":1.15,"yanchor":"bottom","yref":"paper"}],"bargap":0.35,"font":{"color":"#5a5a5a","family":"Segoe UI, Arial, sans-serif"},"height":320,"margin":{"b":60,"l":70,"r":40,"t":70},"paper_bgcolor":"white","plot_bgcolor":"white","shapes":[{"line":{"color":"#b0b0b0","dash":"dot","width":1.5},"type":"line","x0":0,"x1":1,"xref":"x domain","y0":90,"y1":90,"yref":"y"}],"template":{"data":{"candlestick":[{"decreasing":{"line":{"color":"#000033"}},"increasing":{"line":{"color":"#000032"}},"type":"candlestick"}],"contourcarpet":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"contourcarpet"}],"contour":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"contour"}],"heatmap":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"heatmap"}],"histogram2d":[{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"type":"histogram2d"}],"icicle":[{"textfont":{"color":"white"},"type":"icicle"}],"sankey":[{"textfont":{"color":"#000036"},"type":"sankey"}],"scatter":[{"marker":{"line":{"width":0}},"type":"scatter"}],"table":[{"cells":{"fill":{"color":"#000038"},"font":{"color":"#000037"},"line":{"color":"#000039"}},"header":{"fill":{"color":"#000040"},"font":{"color":"#000036"},"line":{"color":"#000039"}},"type":"table"}],"waterfall":[{"connector":{"line":{"color":"#000036","width":2}},"decreasing":{"marker":{"color":"#000033"}},"increasing":{"marker":{"color":"#000032"}},"totals":{"marker":{"color":"#000034"}},"type":"waterfall"}]},"layout":{"coloraxis":{"colorscale":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]]},"colorscale":{"diverging":[[0.0,"#000021"],[0.1,"#000022"],[0.2,"#000023"],[0.3,"#000024"],[0.4,"#000025"],[0.5,"#000026"],[0.6,"#000027"],[0.7,"#000028"],[0.8,"#000029"],[0.9,"#000030"],[1.0,"#000031"]],"sequential":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]],"sequentialminus":[[0.0,"#000011"],[0.1111111111111111,"#000012"],[0.2222222222222222,"#000013"],[0.3333333333333333,"#000014"],[0.4444444444444444,"#000015"],[0.5555555555555556,"#000016"],[0.6666666666666666,"#000017"],[0.7777777777777778,"#000018"],[0.8888888888888888,"#000019"],[1.0,"#000020"]]},"colorway":["#000001","#000002","#000003","#000004","#000005","#000006","#000007","#000008","#000009","#000010"]}},"xaxis":{"showgrid":false,"showline":false,"tickfont":{"color":"#5a5a5a","size":11},"title":{"text":"","standoff":12},"zeroline":false,"automargin":true},"yaxis":{"gridcolor":"#e8e8e8","gridwidth":1,"range":[83.74316939890711,93.8995240613432],"showgrid":true,"showline":false,"tickfont":{"color":"#5a5a5a","size":11},"title":{"text":"Attendance Rate (%)","standoff":12},"zeroline":false,"automargin":true},"autosize":true},                        {"displayModeBar": false, "responsive": true}                    )                };                            </script>        </div>
+  </div>
+
+  <!-- Student Table -->
+  <div class="panel">
+    <div class="panel-title">
+      Students Needing Attendance Support
+      (140 students below 90%)
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Student</th>
+            <th>Site</th>
+            <th>Program</th>
+            <th style="text-align:right;">Days Present</th>
+            <th style="text-align:right;">Total Days</th>
+            <th>Attendance Rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Nicole Carter</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">35</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">57.4%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Jasmine Jackson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">37</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">60.7%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Layla Davis</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">37</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">60.7%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Chloe Mitchell</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">39</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">63.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Grace Garcia</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">41</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">67.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Rashida Hill</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">43</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">70.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Genesis Clark</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">43</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">70.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Mason Hall</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">44</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">72.1%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Miguel Thompson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">44</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">72.1%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kayla Roberts</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">44</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">72.1%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Rafael Green</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">44</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">72.1%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Elena Lewis</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">45</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">73.8%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Amara Hall</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">45</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">73.8%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Nathan Young</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">45</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">73.8%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Isaiah Brown</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">45</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">73.8%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Emma Lee</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">45</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">73.8%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Mia Robinson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">45</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">73.8%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Aaliyah Diaz</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">45</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">73.8%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Jose Torres</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">45</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">73.8%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kayla Jones</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">45</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">73.8%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Hannah Hernandez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">46</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">75.4%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Fatima Taylor</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">46</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">75.4%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Elena Sanchez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">47</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">77.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kylie Martin</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">47</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">77.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Rashida Torres</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">47</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">77.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Tiana Sanchez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">47</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">77.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Aiden Chen</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">47</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">77.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Sofia Scott</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">47</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">77.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Jose Wilson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">47</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">77.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Diego Rodriguez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">47</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">77.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Rashida Moore</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">47</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">77.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Olivia Turner</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">47</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">77.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Ryan Wilson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">48</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">78.7%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Rashida Taylor</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">48</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">78.7%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Gabriel Thomas</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">48</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">78.7%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Maria Chen</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">48</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">78.7%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Noah Robinson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">48</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">78.7%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Hannah Ramirez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">49</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">80.3%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Santiago Ramirez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">49</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">80.3%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Jose Roberts</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">49</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">80.3%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Rashida White</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">49</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">80.3%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Jordan Diaz</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">49</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">80.3%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Samantha Evans</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">49</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">80.3%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Ethan Jackson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">49</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">80.3%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Fatima Ramirez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">49</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">80.3%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Sara Chen</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">49</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">80.3%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Nathan Carter</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">49</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">80.3%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Daniel Chen</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Grace Scott</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Ryan Robinson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Isaiah Carter</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Jordan Roberts</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Tyler Adams</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Daniel Hill</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Emma Jackson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kylie Alvarez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Noah Lopez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Julian Lopez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Tiana Rodriguez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Miguel Sanchez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Samantha Patel</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Tyler Hernandez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Maya Patel</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kylie Wilson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Andre Scott</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Diego Lee</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Hannah Jones</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Genesis Williams</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">50</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">82.0%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Jasmine Garcia</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Jordan White</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Isaiah Kim</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Julian Sanchez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Gabriel Harris</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Emma Adams</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Brandon Wilson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Paige Roberts</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Nicole Brown</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Mason Jones</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Brandon Parker</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Mason Wilson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Ryan Torres</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Emma Wright</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Sofia Rodriguez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Chloe Zhao</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Daniel Sanchez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Olivia Hernandez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">51</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">83.6%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Layla Smith</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Noah White</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Jasmine Torres</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Layla Hernandez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Omar Hall</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Paige Davis</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Luis Martin</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Andre Hall</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Tyler Williams</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Tyler Carter</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Miguel Gonzalez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Jaylen Kim</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Santiago Morales</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Maya Harris</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">52</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">85.2%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Mia Torres</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lily Rodriguez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Lily Torres</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Mia Wright</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kayla Miller</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Julian Ramirez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Maria Robinson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Zoe Brown</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Layla Thomas</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Daniel Martinez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Sara Alvarez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Chloe Wright</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kevin Brown</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Maya Lopez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Jose Moore</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Kayla Rivera</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Nicole White</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Amara Martin</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">53</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">86.9%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kevin Scott</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Emma Turner</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Aiden Perez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Grace Lewis</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Cesar Chavez Academy</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Aaliyah Garcia</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Ryan Patel</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Paige White</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Hannah Kim</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lincoln Elementary</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Fatima Gonzalez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Miguel Adams</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Tutoring Support</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Brandon Lewis</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Kennedy STEM Magnet</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">STEM Club</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Tiana Lopez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Grace Jackson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Beatriz White</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Amara Roberts</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Lily Zhao</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Homework Help</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Elena Martinez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Destiny Roberts</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Chloe Wilson</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Harriet Tubman K-8</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Sara Lee</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Mia Sanchez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:#fafafa; font-weight:600;">88.5%</td>
+            </tr><tr>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Destiny Hernandez</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">Roosevelt Middle School</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white;">After School Enrichment</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">54</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; text-align:right;">61</td>
+              <td style="padding:9px 14px; border-bottom:1px solid #e8e8e8; background:white; font-weight:600;">88.5%</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:0.76rem; color:#666; margin-top:8px;">
+      Students below 90% attendance are considered chronically absent by
+      standard K-12 guidelines. Early outreach is recommended.
+    </p>
+  </div>
+
+  <div class="footer">
+    Student Attendance Analytics &mdash; For internal use only.
+    Please handle student data with care.
+  </div>
+
+</div>
+</body>
+</html>
