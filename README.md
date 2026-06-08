@@ -1,4 +1,4 @@
-# Student-Attendance-Analytics-Dashboard
+# Student-Attendance-Analytics-Dashboard 📚📚📚
 Interactive attendance analytics dashboard for K-12 nonprofit afterschool programs.
 Accepts raw attendance CSV data, cleans and processes it, and surfaces key metrics
 for Regional Leads and program managers — no spreadsheets required.
