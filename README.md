@@ -60,23 +60,6 @@ The file must include the following columns:
 
 Column names are case-insensitive. Extra columns are ignored.
 
-# Upload Your Own Data
-
-Use the sidebar file uploader to replace the demo dataset with your own CSV.
-
-The file must include the following columns:
-
-| Column | Description | Accepted Values |
-|:---|:---|:---|
-| `student_id` | Unique student identifier | Any string |
-| `student_name` | Full name | Any string |
-| `site_name` | Program location | Any string |
-| `program_name` | Program type | Any string |
-| `date` | Session date | Any standard date format |
-| `present` | Attendance status | `1`/`0`, `True`/`False`, `Present`/`Absent` |
-
-Column names are case-insensitive. Extra columns are ignored.
-
 ---
 
 # Project Structure
@@ -91,3 +74,42 @@ attendance-dashboard/
 ├── assets/
 │ └── dashboard_preview.png
 └── requirements.txt
+
+---
+# How It Works (High Level)
+- User uploads a CSV or the app loads the bundled demo dataset on startup
+- `data_processor.py` runs a three-stage pipeline: `load_csv()` → `clean_dataframe()` → `compute_metrics()`
+- `dashboard.py` renders all visuals using `@st.cache_data` so re-renders stay fast
+- Charts are built as live Plotly figures and passed directly to `report_exporter.py`
+- The exported HTML report embeds those same figures via `fig.to_html()` — identical to what's on screen
+---
+# Chronic Absenteeism Definition
+A student is flagged as **chronically absent** when their attendance falls below
+**90%** of scheduled sessions — the standard K-12 threshold used by the
+U.S. Department of Education. Defined in one place and used throughout the pipeline:
+```python
+# data_processor.py
+CHRONIC_ABSENTEEISM_THRESHOLD = 0.90
+```
+---
+## Roadmap
+
+- [ ] Site-level drill-down view with per-student detail
+- [ ] Date range filter in the sidebar
+- [ ] Automated email report for Regional Leads
+- [ ] Connect to a live CSV export from program management systems
+- [ ] Multi-year trend comparison
+
+---
+
+## Notes
+
+* **Data Privacy:** No real student data is used — all demo data is fully synthetic.
+* **Architecture:** The app is fully file-based; no database or backend server is required.
+* **Portability:** The downloaded HTML report works offline once saved (Plotly charts load from CDN).
+
+---
+
+## License
+
+MIT — free to use, adapt, and share.
