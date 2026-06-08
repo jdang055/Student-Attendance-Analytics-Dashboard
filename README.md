@@ -35,3 +35,59 @@ across multiple sites. This dashboard simulates a real program operations loop:
 pip install -r requirements.txt
 ```
 ## 2) Generate the demo dataset
+```bash
+python data/generate_data.py
+```
+## 3) Launch the dashboard
+
+```bash
+streamlit run app/dashboard.py
+```
+# Upload Your Own Data
+
+Use the sidebar file uploader to replace the demo dataset with your own CSV.
+
+The file must include the following columns:
+
+| Column | Description | Accepted Values |
+|:---|:---|:---|
+| `student_id` | Unique student identifier | Any string |
+| `student_name` | Full name | Any string |
+| `site_name` | Program location | Any string |
+| `program_name` | Program type | Any string |
+| `date` | Session date | Any standard date format |
+| `present` | Attendance status | `1`/`0`, `True`/`False`, `Present`/`Absent` |
+
+Column names are case-insensitive. Extra columns are ignored.
+
+# Upload Your Own Data
+
+Use the sidebar file uploader to replace the demo dataset with your own CSV.
+
+The file must include the following columns:
+
+| Column | Description | Accepted Values |
+|:---|:---|:---|
+| `student_id` | Unique student identifier | Any string |
+| `student_name` | Full name | Any string |
+| `site_name` | Program location | Any string |
+| `program_name` | Program type | Any string |
+| `date` | Session date | Any standard date format |
+| `present` | Attendance status | `1`/`0`, `True`/`False`, `Present`/`Absent` |
+
+Column names are case-insensitive. Extra columns are ignored.
+
+---
+
+# Project Structure
+attendance-dashboard/
+├── app/
+│ ├── dashboard.py # Streamlit app — charts, cards, layout
+│ ├── data_processor.py # Load, clean, and compute all metrics
+│ └── report_exporter.py # Build the downloadable HTML report
+├── data/
+│ ├── generate_data.py # Synthetic demo dataset generator
+│ └── demo_attendance.csv # Pre-built demo (300 students, 5 sites, 3 months)
+├── assets/
+│ └── dashboard_preview.png
+└── requirements.txt
