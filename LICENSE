@@ -1,5 +1,46 @@
 MIT License
 
+## License
+
+[MIT License](https://opensource.org/licenses/MIT) — free to use, adapt, and share.
+
+---
+
+## .gitignore
+
+Create a file named `.gitignore` in your root directory to prevent pushing unnecessary files to GitHub:
+
+```text
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.conda/
+env/
+venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Streamlit cache
+.streamlit/
+
+
+---
+
+## Steps to Publish
+
+```bash
+git init
+git add .
+git commit -m "Initial commit — Attendance Analytics Dashboard"
+git branch -M main
+git remote add origin https://github.com/YOUR_USERNAME/attendance-dashboard.git
+git push -u origin main
+
 Copyright (c) 2026 Justin Nguyen Khang Dang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
