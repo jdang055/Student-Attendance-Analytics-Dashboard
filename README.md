@@ -2,7 +2,7 @@
 Interactive attendance analytics dashboard for K-12 nonprofit afterschool programs.
 Accepts raw attendance CSV data, cleans and processes it, and surfaces key metrics
 for Regional Leads and program managers — no spreadsheets required.
-
+![Dashboard Photo](assets/attendance_dashboard_snapshot.png)
 ## Why this project
 Nonprofit program managers need fast, consistent visibility into student attendance
 across multiple sites. This dashboard simulates a real program operations loop:
